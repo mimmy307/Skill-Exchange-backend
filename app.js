@@ -8,6 +8,7 @@ require("./db");
 // Handles http requests (express is node js framework)
 // https://www.npmjs.com/package/express
 const express = require("express");
+const {isAuthenticated} = require("./middleware/jwt.middleware")
 
 const app = express();
 
@@ -22,10 +23,13 @@ const skillRoutes = require("./routes/skill.routes");
 app.use("/api",skillRoutes);
 
 const skillRequestRoutes = require("./routes/skillRequest.routes");
-app.use("/api",skillRequestRoutes);
+app.use("/api",isAuthenticated, skillRequestRoutes);
 
 const reviewRoutes = require("./routes/review.routes");
 app.use("/api", reviewRoutes);
+
+const userRoutes = require("./routes/user.routes");
+app.use("/api", userRoutes)
 
 const authRoutes = require("./routes/auth.routes");
 app.use("/auth", authRoutes)

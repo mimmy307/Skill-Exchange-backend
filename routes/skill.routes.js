@@ -1,9 +1,10 @@
 const express = require("express");
 const router = express.Router();
+const {isAuthenticated} = require("./../middleware/jwt.middleware")
 
 const Skill = require("./../models/Skill.model")
 
-router.post("/skills", (req,res) =>{
+router.post("/skills",isAuthenticated, (req,res) =>{
 
     Skill.create(req.body)
     .then((createdSkill) =>{
@@ -16,6 +17,7 @@ router.post("/skills", (req,res) =>{
 
 router.get("/skills", (req,res) =>{
     Skill.find()
+    .populate("user")
     .then((allSkills) =>{
         res.status(200).json(allSkills)
     })
@@ -28,6 +30,7 @@ router.get("/skills/:skillId", (req,res) =>{
     const skillId = req.params.skillId;
 
     Skill.findById(skillId)
+    .populate("user")
     .then((oneSkill) =>{
         res.status(200).json(oneSkill)
     })
@@ -36,7 +39,7 @@ router.get("/skills/:skillId", (req,res) =>{
     })
 })
 
-router.put("/skills/:skillId", (req,res) =>{
+router.put("/skills/:skillId",isAuthenticated, (req,res) =>{
     const skillId = req.params.skillId;
 
     Skill.findByIdAndUpdate(skillId, req.body, {new: true})
@@ -48,7 +51,7 @@ router.put("/skills/:skillId", (req,res) =>{
     })
 })
 
-router.delete("/skills/:skillId", (req,res) =>{
+router.delete("/skills/:skillId", isAuthenticated, (req,res) =>{
     const skillId = req.params.skillId;
 
     Skill.findByIdAndDelete(skillId)
