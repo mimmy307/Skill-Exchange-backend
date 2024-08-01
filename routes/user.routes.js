@@ -4,6 +4,8 @@ const {isAuthenticated} = require("./../middleware/jwt.middleware")
 
 const User = require("./../models/User.model")
 
+const fileUploader = require("../config/cloudinary.config")
+
 router.get("/users", (req,res)=>{
     User.find()
     .then((allUsers) =>{
@@ -24,6 +26,14 @@ router.get("/users/:userId", (req,res)=>{
     .catch((err) =>{
         res.status(500).json({"couldn't find user" : err})
     })
+})
+
+router.post("/upload", fileUploader.single("profilePic"), (res, res, next) =>{
+    if (!req.file){
+        next(new Error("no file uploaded!"));
+        return;
+    }
+    res.json({fileUrl: req.file.path})
 })
 
 router.put("/users/:userId",isAuthenticated, (req,res)=>{
