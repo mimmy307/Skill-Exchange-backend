@@ -28,13 +28,7 @@ router.get("/users/:userId", (req,res)=>{
     })
 })
 
-router.post("/upload", fileUploader.single("profilePic"), (res, res, next) =>{
-    if (!req.file){
-        next(new Error("no file uploaded!"));
-        return;
-    }
-    res.json({fileUrl: req.file.path})
-})
+
 
 router.put("/users/:userId",isAuthenticated, (req,res)=>{
     const userId = req.params.userId

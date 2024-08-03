@@ -16,11 +16,24 @@ const app = express();
 require("./config")(app);
 
 // 👇 Start handling routes here
+
+const fileUploader = require("./config/cloudinary.config")
+
 const indexRoutes = require("./routes/index.routes");
 app.use("/api", indexRoutes);
 
 const skillRoutes = require("./routes/skill.routes");
-app.use("/api",skillRoutes);
+app.use("/api/skills",skillRoutes);
+
+app.post("/api/upload", fileUploader.single("image"), (req,res,next)=>{
+
+    if(!req.file){
+        next(new Error("no file uploaded!"));
+        return;
+    }
+
+    res.json({fileUrl: req.file.path})
+})
 
 const skillRequestRoutes = require("./routes/skillRequest.routes");
 app.use("/api",isAuthenticated, skillRequestRoutes);
@@ -32,6 +45,7 @@ const userRoutes = require("./routes/user.routes");
 app.use("/api", userRoutes)
 
 const authRoutes = require("./routes/auth.routes");
+const Skill = require("./models/Skill.model");
 app.use("/auth", authRoutes)
 
 

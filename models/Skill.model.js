@@ -1,6 +1,7 @@
 const { Schema, model } = require("mongoose");
 
 const skillSchema = new Schema({
+    image: {type: String},
     skillName: {type:String, required: true},
     description: {type: String, requiredd: true},
     user:{ type: Schema.Types.ObjectId, ref: "User"},

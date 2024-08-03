@@ -4,18 +4,36 @@ const {isAuthenticated} = require("./../middleware/jwt.middleware")
 
 const Skill = require("./../models/Skill.model")
 
-router.post("/skills",isAuthenticated, (req,res) =>{
+const fileUploader = require("../config/cloudinary.config")
+
+router.get("/user/:userId", isAuthenticated, (req, res) => {
+    const userId = req.params.userId;
+    console.log("I'm here", userId);
+    Skill.find({user:userId}).then(skills => {
+        console.log(skills)
+        res.status(200).json(skills)
+    }).catch(err => {
+        console.log(err)
+        res.status(500).json({message: "couldn't find user skills: " + err})
+    })
+})
+
+router.post("/",isAuthenticated, (req,res) =>{
+    console.log(req.body)
 
     Skill.create(req.body)
     .then((createdSkill) =>{
         res.status(201).json(createdSkill)
     })
     .catch((err)=>{
+        console.log(err)
         res.status(500).json({"couldn't create skill": err})
     })
 })
 
-router.get("/skills", (req,res) =>{
+
+
+router.get("/", (req,res) =>{
     Skill.find()
     .populate("user")
     .then((allSkills) =>{
@@ -26,7 +44,9 @@ router.get("/skills", (req,res) =>{
     })
 })
 
-router.get("/skills/:skillId", (req,res) =>{
+
+
+router.get("/:skillId", (req,res) =>{
     const skillId = req.params.skillId;
 
     Skill.findById(skillId)
@@ -39,7 +59,7 @@ router.get("/skills/:skillId", (req,res) =>{
     })
 })
 
-router.put("/skills/:skillId",isAuthenticated, (req,res) =>{
+router.put("/:skillId",isAuthenticated, (req,res) =>{
     const skillId = req.params.skillId;
 
     Skill.findByIdAndUpdate(skillId, req.body, {new: true})
@@ -51,7 +71,7 @@ router.put("/skills/:skillId",isAuthenticated, (req,res) =>{
     })
 })
 
-router.delete("/skills/:skillId", isAuthenticated, (req,res) =>{
+router.delete("/:skillId", isAuthenticated, (req,res) =>{
     const skillId = req.params.skillId;
 
     Skill.findByIdAndDelete(skillId)
