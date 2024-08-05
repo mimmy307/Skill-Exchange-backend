@@ -45,7 +45,6 @@ const userRoutes = require("./routes/user.routes");
 app.use("/api", userRoutes)
 
 const authRoutes = require("./routes/auth.routes");
-const Skill = require("./models/Skill.model");
 app.use("/auth", authRoutes)
 
 

@@ -4,8 +4,6 @@ const {isAuthenticated} = require("./../middleware/jwt.middleware")
 
 const Skill = require("./../models/Skill.model")
 
-const fileUploader = require("../config/cloudinary.config")
-
 router.get("/user/:userId", isAuthenticated, (req, res) => {
     const userId = req.params.userId;
     console.log("I'm here", userId);
