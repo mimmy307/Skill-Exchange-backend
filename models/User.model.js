@@ -16,6 +16,7 @@ const userSchema = new Schema(
     profilePic: {type: String},
     city: {type: String},
     country: {type: String},
+    aboutMe: {type: String},
     tokenBalance: {type: Number, default: 1}
   },
   {

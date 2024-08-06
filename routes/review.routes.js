@@ -15,11 +15,11 @@ router.post('/reviews',isAuthenticated, (req, res) => {
         });
 });
 
-router.get('/reviews/user/:userId', (req, res) => {
+router.get('/reviews/user/:userId',isAuthenticated, (req, res) => {
     const userId = req.params.userId;
 
     Review.find({reviewee: userId})
-        .populate("reviewer", "fullName")
+        .populate("reviewer", "fullName profilePic" )
         .then((allReviews) => {
             res.status(200).json(allReviews);
         })

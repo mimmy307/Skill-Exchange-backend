@@ -6,7 +6,6 @@ const Skill = require("./../models/Skill.model")
 
 router.get("/user/:userId", isAuthenticated, (req, res) => {
     const userId = req.params.userId;
-    console.log("I'm here", userId);
     Skill.find({user:userId}).then(skills => {
         console.log(skills)
         res.status(200).json(skills)
