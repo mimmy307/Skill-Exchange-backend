@@ -31,7 +31,10 @@ router.post("/",isAuthenticated, (req,res) =>{
 
 
 router.get("/", (req,res) =>{
-    Skill.find()
+    const query = req.query.q || ''
+
+    Skill.find({
+        skillName: { $regex: query, $options: 'i' }})
     .populate("user")
     .then((allSkills) =>{
         res.status(200).json(allSkills)

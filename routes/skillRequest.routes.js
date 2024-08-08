@@ -27,6 +27,38 @@ router.get("/skillRequest", (req,res) =>{
     })
 })
 
+router.get("/skillRequest/outgoing/:userId", (req,res)=>{
+    const userId = req.params.userId
+
+    SkillRequest.find({requester: userId})
+        .populate("requester", "fullName email")
+        .populate("offerer", "fullName email")
+        .populate("skill")
+        .then((requests) =>{
+            res.status(200).json(requests)
+        })
+        .catch((err) =>{
+            res.status(500).json({"couldn't find outgoing requests":err})
+        })
+
+})
+
+router.get("/skillRequest/incoming/:userId", (req,res)=>{
+    const userId = req.params.userId
+
+    SkillRequest.find({offerer: userId})
+        .populate("requester", "fullName email")
+        .populate("offerer", "fullName email")
+        .populate("skill")
+        .then((requests) =>{
+            res.status(200).json(requests)
+        })
+        .catch((err) =>{
+            res.status(500).json({"couldn't find incoming requests":err})
+        })
+
+})
+
 router.get("/skillRequest/:skillRequestId", (req,res) =>{
     const skillRequestId = req.params.skillRequestId;
 
