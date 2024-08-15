@@ -79,6 +79,7 @@ router.delete("/:skillId", isAuthenticated, (req,res) =>{
         res.status(204).send()
     })
     .catch((err) =>{
+        console.log("this is the delete skill Error", err)
         res.status(500).json({"couldn't delete skill":err})
     })
 })
