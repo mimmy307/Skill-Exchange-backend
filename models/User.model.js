@@ -17,7 +17,7 @@ const userSchema = new Schema(
     city: {type: String},
     country: {type: String},
     aboutMe: {type: String},
-    tokenBalance: {type: Number, default: 1}
+    tokenBalance: {type: Number, default: 10}
   },
   {
     // this second object adds extra properties: `createdAt` and `updatedAt`    

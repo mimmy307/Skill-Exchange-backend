@@ -24,6 +24,7 @@ router.get('/reviews/user/:userId',isAuthenticated, (req, res) => {
             res.status(200).json(allReviews);
         })
         .catch((err) => {
+            console.log("this is review err", err)
             res.status(500).json({"Couldn't find reviews": err} );
         });
  });

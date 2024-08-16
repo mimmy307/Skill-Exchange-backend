@@ -16,8 +16,8 @@ router.post("/skillRequest", (req,res) =>{
 
 router.get("/skillRequest", (req,res) =>{
     SkillRequest.find()
-    .populate("requester", "fullName email")
-    .populate("offerer", "fullName email")
+    .populate("requester", "fullName email profilePic")
+    .populate("offerer", "fullName email profilePic")
     .populate("skill")
     .then((allSkillRequest) =>{
         res.status(200).json(allSkillRequest)
@@ -31,8 +31,8 @@ router.get("/skillRequest/outgoing/:userId", (req,res)=>{
     const userId = req.params.userId
 
     SkillRequest.find({requester: userId})
-        .populate("requester", "fullName email")
-        .populate("offerer", "fullName email")
+        .populate("requester", "fullName email profilePic")
+        .populate("offerer", "fullName email profilePic")
         .populate("skill")
         .then((requests) =>{
             res.status(200).json(requests)
@@ -47,8 +47,8 @@ router.get("/skillRequest/incoming/:userId", (req,res)=>{
     const userId = req.params.userId
 
     SkillRequest.find({offerer: userId})
-        .populate("requester", "fullName email")
-        .populate("offerer", "fullName email")
+        .populate("requester", "fullName email profilePic")
+        .populate("offerer", "fullName email profilePic")
         .populate("skill")
         .then((requests) =>{
             res.status(200).json(requests)
@@ -63,8 +63,8 @@ router.get("/skillRequest/:skillRequestId", (req,res) =>{
     const skillRequestId = req.params.skillRequestId;
 
     SkillRequest.findById(skillRequestId)
-    .populate("requester", "fullName email")
-    .populate("offerer", "fullName email")
+    .populate("requester", "fullName email profilePic")
+    .populate("offerer", "fullName email profilePic")
     .populate("skill")
     .then((oneSkillRequest) =>{
         res.status(200).json(oneSkillRequest)

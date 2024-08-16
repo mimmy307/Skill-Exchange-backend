@@ -29,14 +29,14 @@ router.post("/signup", (req, res) =>{
         }
 
         const salt = bcrypt.genSaltSync(saltRounds);
-        const hashedPasword = bcrypt.hashSync(password, salt)
+        const hashedPassword = bcrypt.hashSync(password, salt)
 
-        return User.create({email, password: hashedPasword, fullName})
+        return User.create({email, password: hashedPassword, fullName})
     })
     .then((createdUser) =>{
-        const {email, fullName, _id} = createdUser
+        const {email, fullName, _id, profilePic} = createdUser
 
-        const user = {email, fullName, _id};
+        const user = {email, fullName, _id, profilePic};
 
         res.status(201).json({user:user})
     })
@@ -64,9 +64,9 @@ router.post("/login", (req, res)=>{
         const passwordCorrect = bcrypt.compareSync(password, foundUser.password);
 
         if(passwordCorrect){
-            const {_id, email, fullName} = foundUser;
+            const {_id, email, fullName, profilePic} = foundUser;
 
-            const payload = {_id, email, fullName};
+            const payload = {_id, email, fullName, profilePic};
 
             const authToken = jwt.sign(
                 payload, process.env.TOKEN_SECRET, {algorithm: "HS256", expiresIn:"12h"}
