@@ -6,7 +6,7 @@ const User = require("./../models/User.model")
 
 const fileUploader = require("../config/cloudinary.config")
 
-router.get("/users", (req,res)=>{
+router.get("/", (req,res)=>{
     User.find()
     .then((allUsers) =>{
         res.status(200).json(allUsers)
@@ -16,7 +16,7 @@ router.get("/users", (req,res)=>{
     })
 })
 
-router.get("/users/:userId", (req,res)=>{
+router.get("/:userId", (req,res)=>{
     const userId = req.params.userId
 
     User.findById(userId)
@@ -30,7 +30,7 @@ router.get("/users/:userId", (req,res)=>{
 
 
 
-router.put("/users/:userId",isAuthenticated, (req,res)=>{
+router.put("/:userId",isAuthenticated, (req,res)=>{
     const userId = req.params.userId
 
     User.findByIdAndUpdate(userId, req.body, {new: true})
@@ -42,7 +42,7 @@ router.put("/users/:userId",isAuthenticated, (req,res)=>{
     })
 })
 
-router.delete("/users/:userId",isAuthenticated, (req,res) =>{
+router.delete("/:userId",isAuthenticated, (req,res) =>{
     const userId = req.params.userId
 
     User.findByIdAndDelete(userId)

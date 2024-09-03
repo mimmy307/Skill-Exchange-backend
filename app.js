@@ -36,13 +36,13 @@ app.post("/api/upload", fileUploader.single("image"), (req,res,next)=>{
 })
 
 const skillRequestRoutes = require("./routes/skillRequest.routes");
-app.use("/api",isAuthenticated, skillRequestRoutes);
+app.use("/api/skillRequest",isAuthenticated, skillRequestRoutes);
 
 const reviewRoutes = require("./routes/review.routes");
-app.use("/api", reviewRoutes);
+app.use("/api/reviews", reviewRoutes);
 
 const userRoutes = require("./routes/user.routes");
-app.use("/api", userRoutes)
+app.use("/api/users", userRoutes)
 
 const authRoutes = require("./routes/auth.routes");
 app.use("/auth", authRoutes)

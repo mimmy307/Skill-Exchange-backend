@@ -5,7 +5,7 @@ const {isAuthenticated} = require("./../middleware/jwt.middleware")
 const Review = require("./../models/Review.model");
 
 
-router.post('/reviews',isAuthenticated, (req, res) => {
+router.post('/',isAuthenticated, (req, res) => {
     Review.create(req.body)
         .then((createdReview) => {
             res.status(201).json(createdReview);
@@ -15,7 +15,7 @@ router.post('/reviews',isAuthenticated, (req, res) => {
         });
 });
 
-router.get('/reviews/user/:userId',isAuthenticated, (req, res) => {
+router.get('/user/:userId',isAuthenticated, (req, res) => {
     const userId = req.params.userId;
 
     Review.find({reviewee: userId})
@@ -29,7 +29,7 @@ router.get('/reviews/user/:userId',isAuthenticated, (req, res) => {
         });
  });
 
- router.put('/reviews/:reviewId', isAuthenticated,(req, res) => {
+ router.put('/:reviewId', isAuthenticated,(req, res) => {
     const reviewId = req.params.reviewId;
 
     Review.findByIdAndUpdate(reviewId, req.body, { new: true })
@@ -41,7 +41,7 @@ router.get('/reviews/user/:userId',isAuthenticated, (req, res) => {
         });
 });
 
-router.delete('/reviews/:reviewId', isAuthenticated, (req, res) => {
+router.delete('/:reviewId', isAuthenticated, (req, res) => {
     const reviewId = req.params.reviewId;
 
     Review.findByIdAndDelete(reviewId)

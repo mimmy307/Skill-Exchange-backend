@@ -3,7 +3,7 @@ const router = express.Router();
 
 const SkillRequest = require("./../models/SkillRequest.model")
 
-router.post("/skillRequest", (req,res) =>{
+router.post("/", (req,res) =>{
 
     SkillRequest.create(req.body)
     .then((createdSkillRequest) =>{
@@ -14,7 +14,7 @@ router.post("/skillRequest", (req,res) =>{
     })
 })
 
-router.get("/skillRequest", (req,res) =>{
+router.get("/", (req,res) =>{
     SkillRequest.find()
     .populate("requester", "fullName email profilePic")
     .populate("offerer", "fullName email profilePic")
@@ -27,7 +27,7 @@ router.get("/skillRequest", (req,res) =>{
     })
 })
 
-router.get("/skillRequest/outgoing/:userId", (req,res)=>{
+router.get("/outgoing/:userId", (req,res)=>{
     const userId = req.params.userId
 
     SkillRequest.find({requester: userId})
@@ -43,7 +43,7 @@ router.get("/skillRequest/outgoing/:userId", (req,res)=>{
 
 })
 
-router.get("/skillRequest/incoming/:userId", (req,res)=>{
+router.get("/incoming/:userId", (req,res)=>{
     const userId = req.params.userId
 
     SkillRequest.find({offerer: userId})
@@ -59,7 +59,7 @@ router.get("/skillRequest/incoming/:userId", (req,res)=>{
 
 })
 
-router.get("/skillRequest/:skillRequestId", (req,res) =>{
+router.get("/:skillRequestId", (req,res) =>{
     const skillRequestId = req.params.skillRequestId;
 
     SkillRequest.findById(skillRequestId)
@@ -74,7 +74,7 @@ router.get("/skillRequest/:skillRequestId", (req,res) =>{
     })
 })
 
-router.put("/skillRequest/:skillRequestId", (req,res) =>{
+router.put("/:skillRequestId", (req,res) =>{
     const skillRequestId = req.params.skillRequestId;
 
     SkillRequest.findByIdAndUpdate(skillRequestId, req.body, {new: true})
@@ -86,7 +86,7 @@ router.put("/skillRequest/:skillRequestId", (req,res) =>{
     })
 })
 
-router.delete("/skillRequest/:skillRequestId", (req,res) =>{
+router.delete("/:skillRequestId", (req,res) =>{
     const skillRequestId = req.params.skillRequestId;
 
     SkillRequest.findByIdAndDelete(skillRequestId)
