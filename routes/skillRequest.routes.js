@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 
 const SkillRequest = require("./../models/SkillRequest.model")
+const User = require('./../models/User.model')
 
 router.post("/", (req,res) =>{
 
@@ -85,6 +86,32 @@ router.put("/:skillRequestId", (req,res) =>{
         res.status(500).json({"couldn't update skillRequest": err})
     })
 })
+
+router.put("/:skillRequestId/accept", async (req, res) => {
+    const skillRequestId = req.params.skillRequestId;
+    const {status } = req.body; 
+
+    try {
+        const skillRequest = await SkillRequest.findById(skillRequestId).populate('requester offerer');
+        
+        if (status === "accepted") {
+            const { requester, offerer, tokens } = skillRequest;
+
+            await User.findByIdAndUpdate(requester._id, { $inc: { tokenBalance: -tokens } });
+
+            await User.findByIdAndUpdate(offerer._id, { $inc: { tokenBalance: tokens } });
+            }
+
+            skillRequest.status = status
+            await skillRequest.save();
+
+            res.status(200).json({ message: 'Request accepted and tokens transferred' });
+        
+    } catch (err) {
+        console.error('Error updating status:', err);
+        res.status(500).json({ message: 'Server error', error: err });
+    }
+});
 
 router.delete("/:skillRequestId", (req,res) =>{
     const skillRequestId = req.params.skillRequestId;

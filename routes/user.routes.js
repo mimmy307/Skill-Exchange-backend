@@ -29,7 +29,6 @@ router.get("/:userId", (req,res)=>{
 })
 
 
-
 router.put("/:userId",isAuthenticated, (req,res)=>{
     const userId = req.params.userId
 
@@ -41,6 +40,7 @@ router.put("/:userId",isAuthenticated, (req,res)=>{
         res.status(500).json({"couldn't update user" : err})
     })
 })
+
 
 router.delete("/:userId",isAuthenticated, (req,res) =>{
     const userId = req.params.userId
