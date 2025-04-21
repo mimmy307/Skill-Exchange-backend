@@ -11,6 +11,7 @@ router.post('/',isAuthenticated, (req, res) => {
             res.status(201).json(createdReview);
         })
         .catch((err) => {
+            console.error("Error creating review:", err);
             res.status(500).json({"Couldn't create review": err });
         });
 });
